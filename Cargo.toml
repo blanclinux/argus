@@ -1,0 +1,57 @@
+[package]
+name = "argus"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+authors = ["argus contributors"]
+description = "Production-grade Windows CLI/TUI for inspecting and managing localhost ports, processes, and services."
+license = "MIT"
+repository = "https://github.com/example/argus"
+keywords = ["windows", "ports", "process", "cli", "tui"]
+categories = ["command-line-utilities", "development-tools"]
+
+[dependencies]
+anyhow = "1"
+clap = { version = "4", features = ["derive", "color"] }
+crossterm = "0.28"
+ratatui = "0.29"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+windows-sys = { version = "0.59", features = [
+    "Win32_Foundation",
+    "Win32_System_Threading",
+    "Win32_System_ProcessStatus",
+    "Win32_System_Services",
+    "Win32_System_Diagnostics_ToolHelp",
+    "Win32_System_Diagnostics_Debug",
+    "Win32_System_Kernel",
+    "Win32_System_Memory",
+    "Win32_System_LibraryLoader",
+    "Win32_System_Console",
+    "Win32_System_SystemInformation",
+    "Win32_System_Time",
+    "Win32_NetworkManagement_IpHelper",
+    "Win32_Security",
+    "Win32_UI_Shell",
+] }
+
+[target.'cfg(windows)'.dependencies]
+# reserved for future windows-only crates
+
+[build-dependencies]
+winres = "0.1"
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+opt-level = 3
+
+[[bin]]
+name = "argus"
+path = "src/main.rs"
+
+[lib]
+name = "argus"
+path = "src/lib.rs"
